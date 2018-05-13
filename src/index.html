@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Syndicate Simulator - Tenno Tools</title>
+	<meta name="description" content="Tools for the free-to-play video game Warframe. Find the most efficient ways to maintain complicated syndicate relations.">
+	<meta name="viewport" content="width=device-width">
+	<link href="https://fonts.googleapis.com/css?family=Gudea:400,700" rel="stylesheet">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<nav id="menu" class="light shadow">
+	<div id="logo" class="icon"></div>
+	<div id="tennotools" class="icon"></div>
+	<div class="menu-item">
+		<div>
+			<a href="/">Worldstate</a>
+		</div>
+		<div id="platforms">
+			<a href="/pc" id="platform-pc" title="PC">PC</a>
+			<a href="/ps4" id="platform-ps4" title="PlayStation 4">PS4</a>
+			<a href="/xb1" id="platform-xb1" title="Xbox One">XB1</a>
+		</div>
+	</div>
+	<div class="menu-item">
+		<a href="/syndicate/" class="active">Syndicate</a>
+	</div>
+	<div class="menu-item">
+		<a href="/info/">Info</a>
+	</div>
+	<div id="theme-icon" class="icon theme-icon"></div>
+</nav>
+<div id="page"><div id="main">
+<h1>Tracking <div class="icon info-icon" id="info-main-icon"></div></h1>
+<div class="info-box" id="info-main" style="display:none">
+	<div class="light border">
+		<p>Select the syndicate level from a dropdown menu by clicking on the rank name,
+			then enter the reputation points for that level in the upper input field.
+			The bottom input field is used to calculate how a given amount of added standing for one syndicate will affect the others.
+			Both inputs can be either positive or negative and support expressions containing addition and subtraction.
+		</p>
+		<p>Use the Update button to set the new ranks and reputation as the starting point, or the Save button to store the results locally if a supported web browser is used.</p>
+	</div>
+</div>
+<div class="container"><div class="synd steel light border">
+	<div class="top">
+		<div class="icon logo big" title="Steel Meridian"></div>
+		<div class="rank-stars"></div>
+		<div class="rank-label-wrap"><span class="rank-label"></span></div>
+		<div class="ranklist dark border shadow"></div>
+	</div>
+	<div class="values">
+		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+	</div>
+	<div class="results">
+		<div class="out">&#x200b;</div>
+		<div class="progress-background"><div class="progress"></div></div>
+		<div class="diff">&#x200b;</div>
+	</div>
+</div></div><div class="container"><div class="synd hexis light border">
+	<div class="top">
+		<div class="icon logo big" title="Arbiters of Hexis"></div>
+		<div class="rank-stars"></div>
+		<div class="rank-label-wrap"><span class="rank-label"></span></div>
+		<div class="ranklist dark border shadow"></div>
+	</div>
+	<div class="values">
+		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+	</div>
+	<div class="results">
+		<div class="out">&#x200b;</div>
+		<div class="progress-background"><div class="progress"></div></div>
+		<div class="diff">&#x200b;</div>
+	</div>
+</div></div><div class="container"><div class="synd suda light border">
+	<div class="top">
+		<div class="icon logo big" title="Cephalon Suda"></div>
+		<div class="rank-stars"></div>
+		<div class="rank-label-wrap"><span class="rank-label"></span></div>
+		<div class="ranklist dark border shadow"></div>
+	</div>
+	<div class="values">
+		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+	</div>
+	<div class="results">
+		<div class="out">&#x200b;</div>
+		<div class="progress-background"><div class="progress"></div></div>
+		<div class="diff">&#x200b;</div>
+	</div>
+</div></div><div class="container"><div class="synd perrin light border">
+	<div class="top">
+		<div class="icon logo big" title="The Perrin Sequence"></div>
+		<div class="rank-stars"></div>
+		<div class="rank-label-wrap"><span class="rank-label"></span></div>
+		<div class="ranklist dark border shadow"></div>
+	</div>
+	<div class="values">
+		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+	</div>
+	<div class="results">
+		<div class="out">&#x200b;</div>
+		<div class="progress-background"><div class="progress"></div></div>
+		<div class="diff">&#x200b;</div>
+	</div>
+</div></div><div class="container"><div class="synd veil light border">
+	<div class="top">
+		<div class="icon logo big" title="Red Veil"></div>
+		<div class="rank-stars"></div>
+		<div class="rank-label-wrap"><span class="rank-label"></span></div>
+		<div class="ranklist dark border shadow"></div>
+	</div>
+	<div class="values">
+		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+	</div>
+	<div class="results">
+		<div class="out">&#x200b;</div>
+		<div class="progress-background"><div class="progress"></div></div>
+		<div class="diff">&#x200b;</div>
+	</div>
+</div></div><div class="container"><div class="synd loka light border">
+	<div class="top">
+		<div class="icon logo big" title="New Loka"></div>
+		<div class="rank-stars"></div>
+		<div class="rank-label-wrap"><span class="rank-label"></span></div>
+		<div class="ranklist dark border shadow"></div>
+	</div>
+	<div class="values">
+		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+	</div>
+	<div class="results">
+		<div class="out">&#x200b;</div>
+		<div class="progress-background"><div class="progress"></div></div>
+		<div class="diff">&#x200b;</div>
+	</div>
+</div></div>
+<div id="total-results" class="light border" style="display:none"></div>
+<div id="settings" class="buttons"><button id="set-start" title="Set results as new starting point">Update</button><button id="clear-start" title="Reset">Clear</button><button id="save-start" title="Update and save results locally">Save</button></div>
+</div></div>
+<script type="text/javascript">
+if (localStorage !== undefined && localStorage['theme'] === 'bright') {
+	document.body.className = 'bright';
+}
+</script>
+<script type="text/javascript" src="bundle.js"></script>
+</body>
+</html>
