@@ -23,7 +23,7 @@
 			['Fraud', 'Deceiver', 'Neutral', 'Principled', 'Authentic', 'Lawful', 'Crusader', 'Maxim'],
 			['Waste', 'Debris', 'Neutral', 'Competent', 'Intriguing', 'Intelligent', 'Wise', 'Genius'],
 			['Write-Off', 'Liability', 'Neutral', 'Associate', 'Senior Associate', 'Executive', 'Senior Executive', 'Partner'],
-			['Corrupt', 'Suspect', 'Neutral', 'Resepected', 'Honored', 'Esteemed', 'Revered', 'Exalted'],
+			['Corrupt', 'Suspect', 'Neutral', 'Respected', 'Honored', 'Esteemed', 'Revered', 'Exalted'],
 			['Exiled', 'Condemned', 'Neutral', 'Humane', 'Bountiful', 'Benevolent', 'Pure', 'Flawless']
 		],
 
@@ -49,7 +49,9 @@
 		g_$totalDiff,
 		g_valueRegexp = new RegExp('-?\\d+', 'g'),
 		g_hasLocalStorage,
-		g_useBright;
+		g_themes = {dark: 'Depths of Uranus', bright: 'The Second Theme', gold: 'Corrupted Purity'},
+		g_activeTheme,
+		g_$themeMenu;
 
 	function toggleHelp(boxId) {
 		var $box = $(boxId),
@@ -695,6 +697,57 @@
 	g_minRep = g_levelsNegCumulative.pop();
 	g_maxRep = g_levelsPosCumulative.pop();
 	g_hasLocalStorage = localStorage !== undefined && typeof localStorage.setItem == 'function';
+	g_activeTheme = (g_hasLocalStorage && localStorage.getItem('theme')) || 'dark';
+
+	function showThemeMenu(ev) {
+		ev.stopPropagation();
+		if (g_$themeMenu && g_$themeMenu.css('display') !== 'none') {
+			hideThemeMenu();
+			return;
+		}
+		if (!g_$themeMenu) {
+			g_$themeMenu = $.createElement('div', {'id': 'theme-menu', 'class': 'shadow'})
+				.css({'height': '0', 'opacity': '0'});
+			for (var themeId in g_themes) {
+				$.createElement('div', {'class': g_activeTheme === themeId ? 'active' : ''})
+					.text(g_themes[themeId])
+					.attr('title', g_themes[themeId])
+					.data('theme-id', themeId)
+					.on('click', switchTheme)
+					.appendTo(g_$themeMenu);
+			}
+			$('#menu').append(g_$themeMenu);
+		}
+		g_$themeMenu.show();
+		window.setTimeout(function() {
+			g_$themeMenu.css({'height': g_$themeMenu[0].scrollHeight + 'px', 'opacity': '1'});
+		}, 30);
+	}
+
+	function switchTheme(ev) {
+		ev.stopPropagation();
+		var $target = $(ev.target),
+			themeId = $target.getData('theme-id');
+		if (!(themeId in g_themes)) {
+			return;
+		}
+		$('.active', g_$themeMenu).removeClass('active');
+		g_activeTheme = themeId;
+		document.body.className = themeId;
+		$target.addClass('active');
+		if (g_hasLocalStorage) {
+			localStorage.setItem('theme', themeId);
+		}
+	}
+
+	function hideThemeMenu() {
+		if (g_$themeMenu) {
+			g_$themeMenu.css({'height': '0', 'opacity': '0'});
+			window.setTimeout(function() {
+				g_$themeMenu.hide();
+			}, 200);
+		}
+	}
 
 	$.onReady(function() {
 		for (var syndicateIdx = 0, $syndEls = $('#main .synd'); syndicateIdx < $syndEls.length; ++syndicateIdx) {
@@ -719,22 +772,11 @@
 		$('#info-main-icon').on('click', function() {
 			toggleHelp('#info-main');
 		});
-		$(document).on('click', hideRankSelection);
-		if (g_hasLocalStorage) {
-			g_useBright = localStorage.getItem('theme') === 'bright';
-		}
-		$('#theme-icon').on('click', function() {
-			g_useBright = !g_useBright
-			document.body.className = g_useBright ? 'bright' : '';
-			if (g_hasLocalStorage) {
-				if (g_useBright) {
-					localStorage.setItem('theme', 'bright');
-				}
-				else {
-					localStorage.removeItem('theme');
-				}
-			}
+		$(document).on('click', function() {
+			hideRankSelection();
+			hideThemeMenu();
 		});
+		$('#theme-icon').on('click', showThemeMenu);
 		if (!g_hasLocalStorage) {
 			$('#save-start').disable().attr('title', 'Requires browser support for localStorage');
 		}

@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<nav id="menu" class="light shadow">
+<div id="menu" class="shadow">
 	<div id="logo" class="icon"></div>
 	<div id="tennotools" class="icon"></div>
 	<div class="menu-item">
@@ -31,8 +31,8 @@
 	<div class="menu-item">
 		<a href="/info/">Info</a>
 	</div>
-	<div id="theme-icon" class="icon theme-icon"></div>
-</nav>
+	<div id="theme-icon" class="icon theme-icon" title="Theme selection" ></div>
+</div>
 <div id="page"><div id="main">
 <h1>Tracking <div class="icon info-icon" id="info-main-icon"></div></h1>
 <div class="info-box" id="info-main" style="display:none">
@@ -146,9 +146,15 @@
 <div id="settings" class="buttons"><button id="set-start" title="Set results as new starting point">Update</button><button id="clear-start" title="Reset">Clear</button><button id="save-start" title="Update and save results locally">Save</button></div>
 </div></div>
 <script type="text/javascript">
-if (localStorage !== undefined && localStorage['theme'] === 'bright') {
-	document.body.className = 'bright';
-}
+(function() {
+	var theme = localStorage !== undefined && localStorage['theme'];
+	if (theme === 'bright') {
+		document.body.className = 'bright';
+	}
+	else if (theme === 'gold') {
+		document.body.className = 'gold';
+	}
+})();
 </script>
 <script type="text/javascript" src="bundle.js"></script>
 </body>

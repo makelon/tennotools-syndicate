@@ -1,0 +1,218 @@
+@mixin menu-item($theme) {
+	%menu-item-#{$theme} {
+		color: $linkColor;
+
+		&:hover {
+			color: $linkColorHover;
+		}
+
+		&.active {
+			color: $linkColorActive;
+		}
+	}
+
+	%menu-item-background-#{$theme} {
+		@extend %menu-item-#{$theme};
+
+		&:hover {
+			background-color: $listItemBackgroundActive;
+		}
+	}
+}
+
+@include menu-item($theme);
+
+#menu a {
+	@extend %menu-item-#{$theme};
+}
+
+h1, h2 {
+	color: $headerColor;
+}
+
+::placeholder {
+	color: $placeholderColor;
+}
+
+::-webkit-input-placeholder {
+	color: $placeholderColor;
+}
+
+::-moz-placeholder {
+	color: $placeholderColor;
+}
+
+input:-ms-input-placeholder {
+	color: $placeholderColor;
+}
+
+.icon {
+	background-image: url($iconsUrl);
+}
+
+.dark {
+	background-color: $darkBackground;
+}
+
+.light {
+	background-color: $lightBackground;
+}
+
+.border {
+	border-color: $boxBorderColor;
+}
+
+.shadow {
+	box-shadow: $shadow;
+}
+
+#menu, #theme-menu {
+	background-color: $menuBackground;
+}
+
+#theme-menu div {
+	@extend %menu-item-background-#{$theme};
+}
+
+input {
+	background-color: $inputBackground;
+	color: $inputColor;
+}
+
+input {
+	border-color: $inputBorderColor; border-style: $inputBorderStyle; border-width: $inputBorderWidth;
+
+	&:hover, &:focus {
+		background-color: $inputBackgroundActive;
+		border-color: $inputBorderColorActive;
+	}
+}
+
+.buttons button {
+	border-color: $buttonBorderColor; border-style: $buttonBorderStyle; border-width: $buttonBorderWidth;
+}
+
+.buttons button {
+	background-color: $buttonBackground;
+	color: $buttonColor;
+	&:hover, &:focus {
+		background-color: $buttonBackgroundActive;
+		color: $buttonColorActive;
+	}
+
+	&:disabled {
+		background-color: $buttonBackgroundDisabled;
+		color: $buttonColorDisabled;
+	}
+}
+
+.values input, input.multiply {
+	&:hover, &:focus {
+		background-color: $inputBackgroundActive;
+	}
+}
+
+.rank-label {
+	color: $linkColor;
+
+	&:hover, &.selecting {
+		color: $linkColorHover;
+	}
+}
+
+.rank-stars.neg {
+	color: $starColorNeg;
+}
+
+.rank-stars.pos {
+	color: $starColorPos;
+}
+
+.ranklist-item {
+	@extend %menu-item-background-#{$theme};
+}
+
+.ranklist-item {
+	border-color: $ranklistLeftColor;
+
+	&.neg {
+		border-left-color: $diffColorNeg;
+	}
+
+	&.pos {
+		border-left-color: $diffColorPos;
+	}
+}
+
+.progress-background {
+	background-color: $progressColor;
+}
+
+.points-next-rank {
+	color: $nextRankColor;
+}
+
+.progress.neg {
+	background-color: $diffColorNeg;
+}
+
+.progress.pos {
+	background-color: $diffColorPos;
+}
+
+.diff.neg {
+	color: $diffColorNeg;
+}
+
+.diff.pos {
+	color: $diffColorPos;
+}
+
+#planner {
+	.synd {
+		border-color: $plannerSepColor;
+	}
+
+	.controls button {
+		color: $controlColor;
+
+		&:hover {
+			background-color: $controlBackgroundActive;
+			color: $controlColorActive;
+		}
+	}
+
+	.out .neg {
+		color: $diffColorNeg;
+	}
+
+	.out .pos {
+		color: $diffColorPos;
+	}
+}
+
+#suggestions {
+	.suggestion {
+		& + .suggestion {
+			border-color: $suggestionSepColor;
+		}
+
+		&:hover {
+			background-color: $listItemBackgroundActive;
+		}
+	}
+
+	.target.neg {
+		color: $diffColorNeg;
+	}
+
+	.target.pos {
+		color: $diffColorPos;
+	}
+}
+
+@for $i from 0 through 9 {
+	.color-lerp#{$i} {
+		 color: mix($colorLerpEnd, $colorLerpStart, 100 * $i / 9);
+	}
+}

@@ -1,0 +1,61 @@
+$theme: "bright";
+
+$bodyBackground: #fff;
+$menuBackground: #f5f5f5;
+$darkBackground: #ededed;
+$lightBackground: $menuBackground;
+
+$bodyColor: #333;
+$linkColor: #196ea2;
+$linkColorActive: #ad333d;
+$linkColorHover: $linkColorActive;
+$headerColor: #555;
+
+$inputBackground: #dedede;
+$inputBackgroundActive: #ededed;
+$inputBorderColor: #c1c1c1;
+$inputBorderColorActive: $inputBorderColor;
+$inputBorderStyle: solid;
+$inputBorderWidth: 0 0 1px 0;
+$inputColor: #212121;
+$buttonBackground: #dedede;
+$buttonBackgroundActive: #fff;
+$buttonBackgroundDisabled: #9a9a9a;
+$buttonBorderColor: $inputBorderColor;
+$buttonBorderColorActive: $buttonBorderColor;
+$buttonBorderStyle: solid;
+$buttonBorderWidth: 1px;
+$buttonColor: #212121;
+$buttonColorActive: $buttonColor;
+$buttonColorDisabled: $buttonColor;
+$controlBackgroundActive: #fff;
+$controlColor: #555;
+$controlColorActive: #212121;
+$placeholderColor: #ababab;
+
+$iconsUrl: "img-bright.png";
+$boxBorderColor: #e6e6e6;
+$shadow: #d0d0d0 2px 2px 10px;
+$plannerSepColor: #d0d0d0;
+$suggestionSepColor: $plannerSepColor;
+
+$listItemBackgroundActive: #dedede;
+$diffColorNeg: #d63537;
+$diffColorPos: #2289bd;
+$ranklistLeftColor: #c1c1c1;
+$progressColor: #c1c1c1;
+$nextRankColor: #ababab;
+$starColorNeg: #e44b4d;
+$starColorPos: #4eb3e7;
+
+$colorLerpStart: #ff755e;
+$colorLerpEnd: #555555;
+
+body.#{$theme} {
+	background-color: $bodyBackground;
+	color: $bodyColor;
+}
+
+.#{$theme} {
+	@import "themes";
+}

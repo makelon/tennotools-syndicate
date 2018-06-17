@@ -1,0 +1,498 @@
+body, input, button {
+	font: 12pt 'Gudea', sans-serif;
+}
+
+body {
+	margin: 0;
+}
+
+input, button {
+	outline: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.border {
+	border: 1px solid;
+}
+
+#menu {
+	height: 44px;
+	padding-left: 56px;
+	white-space: nowrap;
+	padding-top: 4px;
+}
+
+#logo {
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	background-position: 0 -104px;
+	width: 48px;
+	height: 48px;
+}
+
+#tennotools {
+	display: inline-block;
+	margin-top: 10px;
+	margin-right: 24px;
+	background-position: -48px -104px;
+	width: 96px;
+	height: 24px;
+}
+
+#theme-icon {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	background-position: -164px -104px;
+	cursor: pointer;
+}
+
+#theme-menu {
+	position: absolute;
+	top: 48px;
+	right: 0;
+	z-index: 10;
+	opacity: 0;
+	height: 0;
+	overflow: hidden;
+	transition: height 0.15s,opacity 0.2s;
+
+	div {
+		padding: 5px 10px;
+		cursor: pointer;
+	}
+}
+
+.menu-item, #tennotools {
+	vertical-align: top;
+}
+
+.menu-item, #platforms a {
+	display: inline-block;
+	text-align: center;
+}
+
+.menu-item {
+	#platforms a {
+		font-weight: bold;
+		font-size: 9pt;
+		padding: 0 4px;
+	}
+
+	& + .menu-item {
+		margin-left: 24px;
+	}
+}
+
+#page {
+	padding: 0 5px;
+	margin: 8px auto;
+	text-align: center;
+
+	& > * {
+		text-align: left;
+	}
+}
+
+#main, #planner-wrap {
+	display: inline-block;
+	vertical-align: top;
+}
+
+#main {
+	.container {
+		display: inline-block;
+		width: 200px;
+		padding: 0 5px 10px 5px;
+		box-sizing: border-box;
+	}
+
+	.synd {
+		padding: 5px;
+	}
+}
+
+.nobr {
+	white-space: nowrap;
+}
+
+h1,h2 {
+	margin: 5px;
+	font-weight: bold;
+	text-align: center;
+}
+
+h1 {
+	font-size: 13pt;
+}
+
+h2 {
+	font-size: 12pt;
+}
+
+.info-icon {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-position: -144px -104px;
+	vertical-align: top;
+	cursor: help;
+}
+
+.info-box {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s;
+}
+
+.info-box {
+	& > div {
+		margin: 0 5px 10px 5px;
+	}
+
+	p {
+		margin: 10px;
+	}
+}
+
+.top {
+	margin: 0 0 5px 5px;
+	position: relative;
+	cursor: default;
+	height: 64px;
+}
+
+.logo {
+	&.big {
+		width: 52px;
+		height: 52px;
+	}
+
+	&.small {
+		width: 32px;
+		height: 32px;
+		background-position-y: -52px;
+	}
+
+	&.tiny {
+		width: 20px;
+		height: 20px;
+		background-position-y: -84px;
+	}
+}
+
+$syndicates: hexis, suda, perrin, veil, loka;
+@each $syndicate in $syndicates {
+	$i: index($syndicates, $syndicate);
+	.#{$syndicate} .logo {
+		background-position-x: #{-52 * $i}px;
+	}
+}
+
+.rank-label-wrap {
+	position: absolute;
+	right: 3px;
+	bottom: 0px;
+	width: 100px;
+	text-align: right;
+}
+
+@function addslash($str) {
+	@return str-insert($str, "\\", 1);
+}
+
+@function wrapquotes($str) {
+	@return unquote("\"") + $str + unquote("\"");
+}
+
+.rank-label {
+	cursor: pointer;
+
+	&::after {
+		content: wrapquotes(addslash("a0") + addslash("25bc"));
+		font-size: 8pt;
+	}
+
+	&.selecting::after {
+		content: wrapquotes(addslash("a0") + addslash("25b2"));
+	}
+}
+
+.rank-stars {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 16pt;
+	line-height: 12pt;
+}
+
+.ranklist {
+	min-width: 120px;
+	opacity: 0;
+	height: 0;
+	transition: height 0.15s,opacity 0.2s;
+	overflow: hidden;
+	position: absolute;
+	right: -10px;
+	top: 64px;
+}
+
+.ranklist-item {
+	padding: 5px 20px 5px 10px;
+	border-left: 2px solid;
+}
+
+input, .buttons button {
+	padding: 0 8px;
+	box-sizing: border-box;
+	height: 27px;
+	line-height: 25px;
+}
+
+.values input {
+	width: 100%;
+}
+
+.buttons {
+	button {
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 9pt;
+	}
+
+	button::-moz-focus-inner {
+		padding: 0;
+		border: 0;
+	}
+
+	& > * + * {
+		margin-left: 5px;
+	}
+}
+
+#main {
+	.values {
+		margin: 10px 5px;
+
+		input {
+			margin: 4px 0;
+		}
+	}
+
+	.results {
+		margin: 10px 5px;
+	}
+
+	.out {
+		text-align: center;
+	}
+
+	.points-next-rank, .diff {
+		font-size: 10pt;
+	}
+
+	.progress-background {
+		margin: 3px 0;
+	}
+
+	.progress {
+		height: 3px;
+		width: 0;
+		transition: width 0.3s;
+	}
+
+	.diff {
+		text-align: center;
+	}
+}
+
+#total-results {
+	margin: 0 5px 10px 5px;
+	padding: 5px 0;
+	text-align: center;
+}
+
+#settings {
+	margin: 0 5px 10px 5px;
+}
+
+#planner-wrap {
+	width: 310px;
+	margin-left: 25px;
+}
+
+#planner {
+	padding: 10px;
+	margin: 0 5px;
+
+	.synd {
+		position: relative;
+		padding-left: 35px;
+		border-bottom: 1px solid;
+
+		& + .synd {
+			margin-top: 10px;
+		}
+
+		.logo {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	}
+
+	.values, .controls, .in, .out, .efficiency {
+		display: inline-block;
+	}
+
+	.values {
+		width: 140px;
+	}
+
+	.controls {
+		position: absolute;
+		right: 0;
+
+		button {
+			background: none;
+			border: 0;
+			width: 32px;
+			line-height: 25px;
+			padding: 0;
+			vertical-align: top;
+			font-size: 10pt;
+		}
+	}
+
+	.results, #summary, #suggestions {
+		font-size: 10pt;
+	}
+
+	.results, #summary {
+		padding: 6px 0;
+	}
+
+	.in, .out {
+		margin-right: 15px;
+	}
+
+	.results .in {
+		width: 80px;
+	}
+
+	.results .out {
+		width: 90px;
+	}
+
+	#summary .in {
+		width: 70px;
+	}
+
+	#summary .out {
+		width: 80px;
+	}
+
+	#summary .efficiency {
+		width: 90px;
+	}
+
+	.multiply {
+		width: 100px;
+	}
+
+	.buttons {
+		float: right;
+	}
+}
+
+#suggestions-wrap {
+	margin-top: 10px;
+
+	.target, .efficiency {
+		display: inline-block;
+		text-align: center;
+	}
+
+	.target {
+		width: 12.5%;
+	}
+
+	.efficiency {
+		float: right;
+	}
+}
+
+#suggestion-icons {
+	padding: 0 10px;
+
+	.logo {
+		margin: 0 auto;
+	}
+}
+
+#suggestions {
+	.suggestion {
+		padding: 6px 10px;
+		cursor: pointer;
+
+		& + .suggestion {
+			border-top: 1px solid;
+		}
+	}
+}
+
+@media (max-width: 519px) {
+	#tennotools {
+		display: none;
+	}
+}
+
+@media (max-width: 519px), (min-width:680px) and (max-width:849px) {
+	#main {
+		max-width: 380px;
+
+		.container {
+			width: 50%;
+		}
+	}
+}
+
+@media (min-width: 520px) and (max-width:679px), (min-width:850px) {
+	#main {
+		max-width: 570px;
+
+		.container {
+			width: 33.3%;
+		}
+	}
+}
+
+@media (max-width: 679px) {
+	#planner-wrap {
+		width: auto;
+		display: block;
+		margin-left: 0;
+	}
+
+	#planner {
+		width: 300px;
+		margin: 0 auto;
+		box-sizing: border-box;
+	}
+}
+
+@media (min-width: 680px) {
+	#main {
+		width: calc(100% - 340px);
+	}
+}
+
+@import "themes/dark";
+@import "themes/bright";
+@import "themes/gold";
