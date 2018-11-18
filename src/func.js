@@ -49,7 +49,12 @@
 		g_$totalDiff,
 		g_valueRegexp = new RegExp('-?\\d+', 'g'),
 		g_hasLocalStorage,
-		g_themes = {dark: 'Depths of Uranus', bright: 'The Second Theme', gold: 'Corrupted Purity'},
+		g_themes = {
+			dark: 'Depths of Uranus',
+			bright: 'The Second Theme',
+			gold: 'Corrupted Purity',
+			neon: 'Fortunate Grofit'
+		},
 		g_activeTheme,
 		g_$themeMenu;
 
@@ -619,7 +624,7 @@
 				'placeholder': 'Target rep',
 				'tabindex': 2
 			}).appendTo($inputWrap)[0]);
-			$synd.append('<div class="controls dark border">'
+			$synd.append('<div class="controls">'
 				+ '<button class="auto" title="Auto">\u21bb</button>'
 				+ '<button class="down" title="Decrease">-</button>'
 				+ '<button class="up" title="Increase">+</button>'
@@ -784,5 +789,8 @@
 		updateRankValues();
 		updateTable();
 		openPlanner();
+		if (/ip([oa]d|hone)/i.test(navigator.userAgent)) {
+			document.body.style.cursor = 'pointer';
+		}
 	});
 })();

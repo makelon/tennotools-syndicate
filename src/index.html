@@ -148,11 +148,12 @@
 <script type="text/javascript">
 (function() {
 	var theme = localStorage !== undefined && localStorage['theme'];
-	if (theme === 'bright') {
-		document.body.className = 'bright';
-	}
-	else if (theme === 'gold') {
-		document.body.className = 'gold';
+	switch (theme) {
+		case 'bright':
+		case 'gold':
+		case 'neon':
+			document.body.className = theme;
+			break;
 	}
 })();
 </script>

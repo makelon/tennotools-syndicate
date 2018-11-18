@@ -4,7 +4,8 @@ const fs = require('fs'),
 let sass;
 
 try {
-	sass = require('sass/sass.dart');
+	sassPath = require.resolve('sass/sass.dart');
+	sass = require(sassPath);
 }
 catch (err) {
 	console.error('SASS not found');
@@ -64,37 +65,22 @@ const jsDest = 'bundle.' + jsHash.digest('hex').slice(0, 10) + '.js';
 fs.writeFileSync(distDir + jsDest, jsOut);
 console.log(`${jsDest}: ${jsOut.length}`);
 
-const imgDarkHash = crypto.createHash('sha1'),
-	imgDarkOut = fs.readFileSync('./img/img-dark.png'),
-	imgDarkRegex = new RegExp('\\bimg-dark.png\\b', 'g');
-imgDarkHash.update(imgDarkOut);
-const imgDarkDest = 'img-dark.' + imgDarkHash.digest('hex').slice(0, 10) + '.png';
-fs.writeFileSync(distDir + imgDarkDest, imgDarkOut);
-console.log(`${imgDarkDest}: ${imgDarkOut.length}`);
+let cssOut = sass.renderSync({file: './src/style.scss', outputStyle: 'compressed'})
+	.css
+	.toString('utf8');
 
-const imgBrightHash = crypto.createHash('sha1'),
-	imgBrightOut = fs.readFileSync('./img/img-bright.png'),
-	imgBrightRegex = new RegExp('\\bimg-bright.png\\b', 'g');
-imgBrightHash.update(imgBrightOut);
-const imgBrightDest = 'img-bright.' + imgBrightHash.digest('hex').slice(0, 10) + '.png';
-fs.writeFileSync(distDir + imgBrightDest, imgBrightOut);
-console.log(`${imgBrightDest}: ${imgBrightOut.length}`);
-
-const imgGoldHash = crypto.createHash('sha1'),
-	imgGoldOut = fs.readFileSync('./img/img-gold.png'),
-	imgGoldRegex = new RegExp('\\bimg-gold.png\\b', 'g');
-imgGoldHash.update(imgBrightOut);
-const imgGoldDest = 'img-gold.' + imgGoldHash.digest('hex').slice(0, 10) + '.png';
-fs.writeFileSync(distDir + imgGoldDest, imgGoldOut);
-console.log(`${imgGoldDest}: ${imgGoldOut.length}`);
+for (const theme of ['dark', 'bright', 'gold', 'neon']) {
+	const imgHash = crypto.createHash('sha1'),
+		imgOut = fs.readFileSync(`./img/img-${theme}.png`),
+		imgRegex = new RegExp(`\\bimg-${theme}.png\\b`, 'g');
+	imgHash.update(imgOut);
+	const imgDest = `img-${theme}.${imgHash.digest('hex').slice(0, 10)}.png`;
+	fs.writeFileSync(distDir + imgDest, imgOut);
+	console.log(`${imgDest}: ${imgOut.length}`);
+	cssOut = cssOut.replace(imgRegex, imgDest);
+}
 
 const cssHash = crypto.createHash('sha1'),
-	cssOut = sass.renderSync({file: './src/style.scss', outputStyle: 'compressed'})
-		.css
-		.toString('utf8')
-		.replace(imgDarkRegex, imgDarkDest)
-		.replace(imgBrightRegex, imgBrightDest)
-		.replace(imgGoldRegex, imgGoldDest),
 	cssRegex = new RegExp('\\bstyle.css\\b', 'g');
 cssHash.update(cssOut);
 const cssDest = 'style.' + cssHash.digest('hex').slice(0, 10) + '.css';

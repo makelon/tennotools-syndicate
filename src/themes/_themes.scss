@@ -15,7 +15,7 @@
 		@extend %menu-item-#{$theme};
 
 		&:hover {
-			background-color: $listItemBackgroundActive;
+			background: $listItemBackgroundActive;
 		}
 	}
 }
@@ -51,11 +51,11 @@ input:-ms-input-placeholder {
 }
 
 .dark {
-	background-color: $darkBackground;
+	background: $darkBackground;
 }
 
 .light {
-	background-color: $lightBackground;
+	background: $lightBackground;
 }
 
 .border {
@@ -67,7 +67,7 @@ input:-ms-input-placeholder {
 }
 
 #menu, #theme-menu {
-	background-color: $menuBackground;
+	background: $menuBackground;
 }
 
 #theme-menu div {
@@ -75,40 +75,44 @@ input:-ms-input-placeholder {
 }
 
 input {
-	background-color: $inputBackground;
+	background: $inputBackground;
 	color: $inputColor;
 }
 
 input {
-	border-color: $inputBorderColor; border-style: $inputBorderStyle; border-width: $inputBorderWidth;
+	border-color: $inputBorderColor;
+	border-style: $inputBorderStyle;
+	border-width: $inputBorderWidth;
 
 	&:hover, &:focus {
-		background-color: $inputBackgroundActive;
+		background: $inputBackgroundActive;
 		border-color: $inputBorderColorActive;
 	}
 }
 
 .buttons button {
-	border-color: $buttonBorderColor; border-style: $buttonBorderStyle; border-width: $buttonBorderWidth;
+	border-color: $buttonBorderColor;
+	border-style: $buttonBorderStyle;
+	border-width: $buttonBorderWidth;
 }
 
 .buttons button {
-	background-color: $buttonBackground;
+	background: $buttonBackground;
 	color: $buttonColor;
 	&:hover, &:focus {
-		background-color: $buttonBackgroundActive;
+		background: $buttonBackgroundActive;
 		color: $buttonColorActive;
 	}
 
 	&:disabled {
-		background-color: $buttonBackgroundDisabled;
+		background: $buttonBackgroundDisabled;
 		color: $buttonColorDisabled;
 	}
 }
 
 .values input, input.multiply {
 	&:hover, &:focus {
-		background-color: $inputBackgroundActive;
+		background: $inputBackgroundActive;
 	}
 }
 
@@ -145,7 +149,7 @@ input {
 }
 
 .progress-background {
-	background-color: $progressColor;
+	background: $progressColor;
 }
 
 .points-next-rank {
@@ -153,11 +157,11 @@ input {
 }
 
 .progress.neg {
-	background-color: $diffColorNeg;
+	background: $diffColorNeg;
 }
 
 .progress.pos {
-	background-color: $diffColorPos;
+	background: $diffColorPos;
 }
 
 .diff.neg {
@@ -173,12 +177,19 @@ input {
 		border-color: $plannerSepColor;
 	}
 
-	.controls button {
-		color: $controlColor;
+	.controls {
+		background: $controlBackground;
+		border-color: $controlBorderColor;
+		border-style: $controlBorderStyle;
+		border-width: $controlBorderWidth;
 
-		&:hover {
-			background-color: $controlBackgroundActive;
-			color: $controlColorActive;
+		button {
+			color: $controlColor;
+
+			&:hover {
+				background: $controlBackgroundActive;
+				color: $controlColorActive;
+			}
 		}
 	}
 
@@ -198,7 +209,7 @@ input {
 		}
 
 		&:hover {
-			background-color: $listItemBackgroundActive;
+			background: $listItemBackgroundActive;
 		}
 	}
 

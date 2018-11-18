@@ -4,6 +4,7 @@ body, input, button {
 
 body {
 	margin: 0;
+	touch-action: manipulation;
 }
 
 input, button {
@@ -250,8 +251,14 @@ $syndicates: hexis, suda, perrin, veil, loka;
 
 input, .buttons button {
 	padding: 0 8px;
+}
+
+input, .buttons button, .controls {
 	box-sizing: border-box;
 	height: 27px;
+}
+
+input, button {
 	line-height: 25px;
 }
 
@@ -496,3 +503,4 @@ input, .buttons button {
 @import "themes/dark";
 @import "themes/bright";
 @import "themes/gold";
+@import "themes/neon";

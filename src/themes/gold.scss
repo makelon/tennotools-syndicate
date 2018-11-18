@@ -4,6 +4,7 @@ $bodyBackground: #19140e;
 $menuBackground: #2d261e;
 $darkBackground: #1f1b15;
 $lightBackground: $menuBackground;
+$boxBorderColor: #342d1d;
 
 $bodyColor: #bfb7a0;
 $linkColor: #bdb090;
@@ -28,14 +29,16 @@ $buttonBorderWidth: 1px;
 $buttonColor: $inputColor;
 $buttonColorActive: #e2d9c1;
 $buttonColorDisabled: #9e9887;
+$controlBackground: $darkBackground;
 $controlBackgroundActive: $buttonBackgroundActive;
+$controlBorderColor: $inputBorderColor;
+$controlBorderStyle: $inputBorderStyle;
+$controlBorderWidth: $inputBorderWidth;
 $controlColor: $inputColor;
 $controlColorActive: $buttonColorActive;
 $placeholderColor: #6b5e3f;
 
 $iconsUrl: "img-gold.png";
-
-$boxBorderColor: #3e3623;
 $shadow: #151515 2px 2px 10px;
 $plannerSepColor: #463d28;
 $suggestionSepColor: #302b28;
