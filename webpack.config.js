@@ -7,10 +7,10 @@ const path = require('path'),
 module.exports = env => ({
 	mode: env && env.production ? 'production' : 'none',
 	cache: false,
-	context: path.resolve(__dirname, 'src'),
+	context: path.resolve(__dirname, 'app'),
 	entry: {
-		app: ['../lib/jsutil/jsutil.js', './func.js'],
-		style: './style.scss'
+		app: ['./lib/jsutil/jsutil.js', './src/func.js'],
+		style: './css/style.scss'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -53,7 +53,7 @@ module.exports = env => ({
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: 'index.html',
+			template: './src/index.html',
 			minify: {
 				collapseWhitespace: true,
 				collapseInlineTagWhitespace: true
