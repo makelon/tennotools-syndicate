@@ -597,7 +597,7 @@
 			inputs = [],
 			suggestionIcons = '';
 		$wrap.append('<h1>'
-				+ 'Planning '
+				+ 'Planning\u00a0'
 				+ '<div class="icon info-icon" id="info-planner-icon"></div>'
 				+ '</h1>'
 				+ '<div class="info-box" id="info-planner" style="display:none"><div class="light-box border">'
