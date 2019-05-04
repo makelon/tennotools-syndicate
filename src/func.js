@@ -592,7 +592,7 @@
 	Planner.prototype.create = function() {
 		var self = this,
 			$wrap = $.createElement('div', {'id': 'planner-wrap'}),
-			$planner = $.createElement('div', {'id': 'planner', 'class': 'light border'}),
+			$planner = $.createElement('div', {'id': 'planner', 'class': 'light-box border'}),
 			$buttons = $.createElement('div', {'class': 'buttons'}),
 			inputs = [],
 			suggestionIcons = '';
@@ -600,7 +600,7 @@
 				+ 'Planning '
 				+ '<div class="icon info-icon" id="info-planner-icon"></div>'
 				+ '</h1>'
-				+ '<div class="info-box" id="info-planner" style="display:none"><div class="light border">'
+				+ '<div class="info-box" id="info-planner" style="display:none"><div class="light-box border">'
 				+ '<p>Calculate how many points you need to gain with each syndicate in order to reach a given distribution of reputation'
 				+ ' by entering the desired targets in the input field or using the controls.'
 				+ ' Expressions with addition and subtraction are allowed in the input fields.</p>'
@@ -683,7 +683,7 @@
 			self.update();
 		});
 		this.$suggestions = $.createElement('div', {'id': 'suggestions'});
-		this.$suggestionsWrap = $.createElement('div', {'id': 'suggestions-wrap', 'class': 'dark border'})
+		this.$suggestionsWrap = $.createElement('div', {'id': 'suggestions-wrap', 'class': 'dark-box border'})
 			.append('<h2>Suggestions</h2><div id="suggestion-icons">' + suggestionIcons + '</div>')
 			.append(this.$suggestions)
 			.hide()
