@@ -4,64 +4,69 @@ const path = require('path'),
 	CleanWebpackPlugin = require('clean-webpack-plugin'),
 	FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 
-module.exports = env => ({
-	mode: env && env.production ? 'production' : 'none',
-	cache: false,
-	context: path.resolve(__dirname, 'app'),
-	entry: {
-		app: ['./lib/jsutil/jsutil.js', './src/func.js'],
-		style: './css/style.scss'
-	},
-	output: {
-		path: path.resolve(__dirname, 'dist'),
-		filename: '[name].[contenthash:8].js'
-	},
-	module: {
-		rules: [
-			{
-				test: /\.scss$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					{
-						loader: 'css-loader',
-						options: {
-							sourceMap: true
+module.exports = env => {
+	const isProd = env && env.production,
+		filenamePattern = isProd ? '[name].[contenthash:8]' : '[name]';
+
+	return {
+		mode: isProd ? 'production' : 'none',
+		cache: false,
+		context: path.resolve(__dirname, 'app'),
+		entry: {
+			app: ['./lib/jsutil/jsutil.js', './src/func.js'],
+			style: './css/style.scss'
+		},
+		output: {
+			path: path.resolve(__dirname, 'dist'),
+			filename: `${filenamePattern}.js`
+		},
+		module: {
+			rules: [
+				{
+					test: /\.scss$/,
+					use: [
+						MiniCssExtractPlugin.loader,
+						{
+							loader: 'css-loader',
+							options: {
+								sourceMap: !isProd
+							}
+						},
+						{
+							loader: 'sass-loader',
+							options: {
+								sourceMap: !isProd,
+								implementation: require("sass")
+							}
 						}
-					},
-					{
-						loader: 'sass-loader',
+					]
+				},
+				{
+					test: /\.png$/,
+					use: {
+						loader: 'file-loader',
 						options: {
-							sourceMap: true,
-							implementation: require("sass")
+							name: `${filenamePattern}.[ext]`
 						}
-					}
-				]
-			},
-			{
-				test: /\.png$/,
-				use: {
-					loader: 'file-loader',
-					options: {
-						name: '[name].[contenthash:8].[ext]'
 					}
 				}
-			}
-		]
-	},
-	plugins: [
-		new FixStyleOnlyEntriesPlugin(),
-		new CleanWebpackPlugin(),
-		new HtmlWebpackPlugin({
-			filename: 'index.html',
-			template: './src/index.html',
-			minify: {
-				collapseWhitespace: true,
-				collapseInlineTagWhitespace: true
-			}
-		}),
-		new MiniCssExtractPlugin({
-			filename: '[name].[contenthash:8].css'
-		})
-	],
-	devtool: env && env.production ? false : 'source-maps'
-});
+			]
+		},
+		plugins: [
+			new FixStyleOnlyEntriesPlugin(),
+			new CleanWebpackPlugin(),
+			new HtmlWebpackPlugin({
+				filename: 'index.html',
+				template: './src/index.html',
+				minify: {
+					collapseWhitespace: true,
+					collapseInlineTagWhitespace: true
+				}
+			}),
+			new MiniCssExtractPlugin({
+				filename: `${filenamePattern}.css`
+			})
+		],
+		devtool: isProd ? false : 'source-maps'
+	};
+}
