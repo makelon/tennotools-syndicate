@@ -13,7 +13,7 @@ module.exports = env => {
 		cache: false,
 		context: path.resolve(__dirname, 'app'),
 		entry: {
-			app: ['./lib/jsutil/jsutil.js', './src/func.js'],
+			app: ['./lib/jsutil/jsutil.js', './src/app.js'],
 			style: './css/style.scss'
 		},
 		output: {
