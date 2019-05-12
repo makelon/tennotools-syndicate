@@ -200,25 +200,25 @@ input {
 	.out .pos {
 		color: $diffColorPos;
 	}
-}
 
-#suggestions {
-	.suggestion {
-		& + .suggestion {
-			border-color: $suggestionSepColor;
+	@at-root &-suggestions {
+		.suggestion {
+			& + .suggestion {
+				border-color: $suggestionSepColor;
+			}
+	
+			&:hover {
+				background: $listItemBackgroundActive;
+			}
 		}
-
-		&:hover {
-			background: $listItemBackgroundActive;
+	
+		.neg {
+			color: $diffColorNeg;
 		}
-	}
-
-	.target.neg {
-		color: $diffColorNeg;
-	}
-
-	.target.pos {
-		color: $diffColorPos;
+	
+		.pos {
+			color: $diffColorPos;
+		}
 	}
 }
 

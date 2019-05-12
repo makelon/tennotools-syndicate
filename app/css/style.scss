@@ -101,12 +101,12 @@ a {
 	}
 }
 
-#main, #planner-wrap {
+#tracker, #planner {
 	display: inline-block;
 	vertical-align: top;
 }
 
-#main {
+#tracker {
 	.container {
 		display: inline-block;
 		width: 200px;
@@ -283,7 +283,7 @@ input, button {
 	}
 }
 
-#main {
+#tracker {
 	.values {
 		margin: 10px 5px;
 
@@ -329,14 +329,9 @@ input, button {
 	margin: 0 5px 10px 5px;
 }
 
-#planner-wrap {
+#planner {
 	width: 310px;
 	margin-left: 25px;
-}
-
-#planner {
-	padding: 10px;
-	margin: 0 5px;
 
 	.synd {
 		position: relative;
@@ -377,79 +372,89 @@ input, button {
 		}
 	}
 
-	.results, #summary, #suggestions {
-		font-size: 10pt;
-	}
-
-	.results, #summary {
-		padding: 6px 0;
-	}
-
 	.in, .out {
 		margin-right: 15px;
 	}
 
-	.results .in {
-		width: 80px;
-	}
+	.results {
+		.in {
+			width: 80px;
+		}
 
-	.results .out {
-		width: 90px;
-	}
-
-	#summary .in {
-		width: 70px;
-	}
-
-	#summary .out {
-		width: 80px;
-	}
-
-	#summary .efficiency {
-		width: 90px;
-	}
-
-	.multiply {
-		width: 100px;
+		.out {
+			width: 90px;
+		}
 	}
 
 	.buttons {
 		float: right;
 	}
-}
 
-#suggestions-wrap {
-	margin-top: 10px;
+	@at-root {
+		&-box {
+			padding: 10px;
+			margin: 0 5px;
+		}
 
-	.target, .efficiency {
-		display: inline-block;
-		text-align: center;
-	}
+		& .results, &-summary, &-suggestions {
+			font-size: 10pt;
+		}
 
-	.target {
-		width: 12.5%;
-	}
+		& .results, &-summary {
+			padding: 6px 0;
+		}
 
-	.efficiency {
-		float: right;
-	}
-}
+		&-summary {
+			.in {
+				width: 70px;
+			}
 
-#suggestion-icons {
-	padding: 0 10px;
+			.out {
+				width: 80px;
+			}
 
-	.logo {
-		margin: 0 auto;
-	}
-}
+			.efficiency {
+				width: 90px;
+			}
+		}
 
-#suggestions {
-	.suggestion {
-		padding: 6px 10px;
-		cursor: pointer;
+		&-multiply {
+			width: 100px;
+		}
 
-		& + .suggestion {
-			border-top: 1px solid;
+		&-suggestions {
+			margin-top: 10px;
+
+			.column {
+				display: inline-block;
+			}
+
+			.column {
+				width: 12.5%;
+				text-align: center;
+			}
+
+			.efficiency {
+				width: 25%;
+				text-align: right;
+			}
+
+			.suggestion {
+				padding: 6px 10px;
+				cursor: pointer;
+
+				& + .suggestion {
+					border-top: 1px solid;
+				}
+			}
+		}
+
+		&-suggestion-icons {
+			padding: 0 10px;
+
+			.logo {
+				margin: 0 auto;
+			}
 		}
 	}
 }
@@ -461,7 +466,7 @@ input, button {
 }
 
 @media (max-width: 519px), (min-width:680px) and (max-width:849px) {
-	#main {
+	#tracker {
 		max-width: 380px;
 
 		.container {
@@ -471,7 +476,7 @@ input, button {
 }
 
 @media (min-width: 520px) and (max-width:679px), (min-width:850px) {
-	#main {
+	#tracker {
 		max-width: 570px;
 
 		.container {
@@ -495,7 +500,7 @@ input, button {
 }
 
 @media (min-width: 680px) {
-	#main {
+	#tracker {
 		width: calc(100% - 340px);
 	}
 }

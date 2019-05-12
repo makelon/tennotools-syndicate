@@ -1,7 +1,7 @@
 import { toggle as toggleInfoBox } from '../utils/info-box';
 import * as global from '../vars/global';
 
-var planner = null;
+var instantiated = false;
 
 var matrix = [
 		//SM, AH, CS, PS, RV
@@ -114,17 +114,26 @@ var matrix = [
 	];
 
 export function PlannerComponent(tracker) {
-	if (planner) {
+	if (instantiated) {
+		// Currently, only one instance is allowed since multiple browser tabs is a better way to compare strategies.
 		throw new Error('A planner instance has already been created.');
 	}
-	planner = this;
+	instantiated = true;
 	this.tracker = tracker;
-	this.$planner = $('#planner-wrap');
-	this.targets = $.fillArray(Array(6), false);
-	this.inputs = [];
+	this.targets = [];
+	this.points = [];
 	this.suggestionsId = 0;
+	this.$inputs = null;
+	this.$resultsIn = null;
+	this.$resultsOut = null;
+	this.$summaryIn = null;
+	this.$summaryOut = null;
+	this.$efficiency = null;
+	this.$suggestions = null;
+	this.$suggestionsList = null;
 	this.initialized = false;
 }
+
 
 PlannerComponent.prototype = {
 	init: function() {
@@ -132,179 +141,164 @@ PlannerComponent.prototype = {
 			throw new Error('The planner has already been initialized.');
 		}
 		this.initialized = true;
-		var self = this,
-			$wrap = $.createElement('div', {'id': 'planner-wrap'}),
-			$planner = $.createElement('div', {'id': 'planner', 'class': 'light-box border'}),
-			$buttons = $.createElement('div', {'class': 'buttons'}),
-			inputs = [],
-			suggestionIcons = '';
-		$wrap.append('<h1>'
-				+ 'Planning\u00a0'
-				+ '<div class="icon info-icon" id="info-planner-icon"></div>'
-				+ '</h1>'
-				+ '<div class="info-box" id="info-planner" style="display:none"><div class="light-box border">'
-				+ '<p>Calculate how many points you need to gain with each syndicate in order to reach a given distribution of reputation'
-				+ ' by entering the desired targets in the input field or using the controls.'
-				+ ' Expressions with addition and subtraction are allowed in the input fields.</p>'
-				+ '<p>The multiplier field at the bottom accepts any real number and multiplies the results by that value.</p>'
-				+ '<p>The Apply button copies the points required to the bottom fields in the tracking section.</p>'
-				+ '</div></div>')
-			.append($planner);
-		$('#info-planner-icon', $wrap).on('click', function() {
+		this.loadSuggestion = this.loadSuggestion.bind(this);
+
+		for (var syndicateIdx = 0, $syndEls = $('#planner .synd'); syndicateIdx < $syndEls.length; ++syndicateIdx) {
+			$syndEls.getObj(syndicateIdx).data('synd-idx', syndicateIdx);
+			this.targets.push(false);
+		}
+
+		this.$inputs = $('#planner .target');
+		this.$resultsIn = $('#planner .results .in');
+		this.$resultsOut = $('#planner .results .out');
+		this.$summaryIn = $('#planner-summary .in');
+		this.$summaryOut = $('#planner-summary .out');
+		this.$efficiency = $('#planner-summary .efficiency');
+		this.$multiply = $('#planner-multiply');
+		this.$suggestions = $('#planner-suggestions');
+		this.$suggestionsList = $('#planner-suggestions-list');
+		$('#info-planner-icon').on('click', function() {
 			toggleInfoBox('#info-planner');
 		});
-		for (var syndicateIdx = 0; syndicateIdx < this.targets.length; ++syndicateIdx) {
-			var $synd = $.createElement('div', {'class': 'synd ' + global.syndicateNames[syndicateIdx][0]})
-					.data('synd-idx', syndicateIdx)
-					.html('<div class="icon logo small"></div>')
-					.appendTo($planner),
-				$inputWrap = $.createElement('div', {'class': 'values'})
-					.appendTo($synd);
-			this.inputs.push($.createElement('input', {
-				'type': 'text',
-				'class': 'target',
-				'placeholder': 'Target rep',
-				'tabindex': 2
-			}).appendTo($inputWrap)[0]);
-			$synd.append('<div class="controls">'
-				+ '<button class="auto" title="Auto">\u21bb</button>'
-				+ '<button class="down" title="Decrease">-</button>'
-				+ '<button class="up" title="Increase">+</button>'
-				+ '</div>'
-				+ '<div class="results nobr">'
-				+	'<div class="in">\u200b</div>'
-				+	'<div class="out">\u200b</div>'
-				+ '</div>');
-			suggestionIcons += '<div class="target ' + global.syndicateNames[syndicateIdx][0] + '"><div class="icon logo tiny"></div></div>';
-		}
-		suggestionIcons += '<div class="efficiency"></div>';
-		$planner.append('<div id="summary" class="nobr">'
-			+ '<div class="in">\u200b</div>'
-			+ '<div class="out">\u200b</div>'
-			+ '<div class="efficiency">\u200b</div>'
-			+ '</div>');
-		this.$multiply = $.createElement('input', {
-			'type': 'text',
-			'class': 'multiply',
-			'placeholder': 'Multiply',
-			'tabindex': 3
-		}).on('input|keyup', function() {
-			self.update(true);
-		}).appendTo($planner);
-		$planner.append($buttons);
-		$.createElement('button', {'tabindex': 4}).text('Apply').appendTo($buttons).on('click', function() {
-			self.tracker.setStartValues(self.points);
-		});
-		this.$resultsIn = $('.results .in', $planner);
-		this.$resultsOut = $('.results .out', $planner);
-		this.$summaryIn = $('#summary .in',  $planner);
-		this.$summaryOut = $('#summary .out',  $planner);
-		this.$efficiency = $('#summary .efficiency', $planner);
-		$('.target', $planner).on('input|keyup', function(ev) {
-			var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true),
-				match;
-			self.targets[syndicateIdx] = false;
-			while (match = global.valueRegexp.exec(ev.currentTarget.value)) {
-				self.targets[syndicateIdx] += Number(match[0]);
-			}
-			self.update();
-		});
-		$('button.auto', $planner).on('click', function(ev) {
-			var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true);
-			self.targets[syndicateIdx] = false;
-			self.inputs[syndicateIdx].value = '';
-			self.update();
-		});
-		$('button.up, button.down', $planner).on('click', function(ev) {
-			var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true);
-			self.targets[syndicateIdx] += ev.currentTarget.className == 'up' ? 10 : -10;
-			self.inputs[syndicateIdx].value = self.targets[syndicateIdx];
-			self.update();
-		});
-		this.$suggestions = $.createElement('div', {'id': 'suggestions'});
-		this.$suggestionsWrap = $.createElement('div', {'id': 'suggestions-wrap', 'class': 'dark-box border'})
-			.append('<h2>Suggestions</h2><div id="suggestion-icons">' + suggestionIcons + '</div>')
-			.append(this.$suggestions)
-			.hide()
-			.appendTo($planner);
-		$('#page').append($wrap);
+		this.$multiply.on('input|keyup', this.update.bind(this, true));
+		$('#planner .target').on('input|keyup', this.setTargetValue.bind(this));
+		$('#planner button.auto').on('click', this.setTargetAuto.bind(this));
+		$('#planner button.down').on('click', this.decTarget.bind(this));
+		$('#planner button.up').on('click', this.incTarget.bind(this));
+		$('#planner-apply').on('click', this.updateTracker.bind(this));
 	},
 
-	suggest: function() {
-		var self = this,
-			bitfield = 0,
-			bitfieldNeg = 0,
-			bitfieldZero = 0,
-			numSuggestions = 0;
+	setTargetValue: function(ev) {
+		var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true),
+			match;
+		this.targets[syndicateIdx] = false;
+		while (match = global.valueRegexp.exec(ev.currentTarget.value)) {
+			this.targets[syndicateIdx] += Number(match[0]);
+		}
+		this.update();
+	},
+
+	setTargetAuto: function(ev) {
+		var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true);
+		this.setTarget(syndicateIdx, false);
+		this.update();
+	},
+
+	decTarget: function(ev) {
+		var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true);
+		this.setTarget(syndicateIdx, this.targets[syndicateIdx] - 10);
+		this.update();
+	},
+
+	incTarget: function(ev) {
+		var syndicateIdx = $(ev.currentTarget).getData('synd-idx', true);
+		this.setTarget(syndicateIdx, this.targets[syndicateIdx] + 10);
+		this.update();
+	},
+
+	setTarget: function(syndicateIdx, points) {
+		this.targets[syndicateIdx] = points;
+		this.$inputs[syndicateIdx].value = points === false ? '' : points;
+	},
+
+	updateTracker: function() {
+		this.tracker.setStartValues(this.points);
+	},
+
+	getTargetBitfields: function() {
+		var bitfields = {
+			pos: 0,
+			neg: 0,
+			zero: 0
+		};
 		for (var idx = 0; idx < this.targets.length; ++idx) {
 			var target = this.targets[idx];
-			bitfield <<= 1;
-			bitfieldNeg <<= 1;
-			bitfieldZero <<= 1;
+			bitfields.pos <<= 1;
+			bitfields.neg <<= 1;
+			bitfields.zero <<= 1;
 			if (target > 0) {
-				++bitfield;
+				++bitfields.pos;
 			}
 			else if (target < 0) {
-				++bitfieldNeg;
+				++bitfields.neg;
 			}
 			else if (target === 0) {
-				++bitfieldZero;
+				++bitfields.zero;
 			}
 		}
-		var suggestionId = (bitfield << 12) | (bitfieldNeg << 6) | bitfieldZero;
-		if (this.suggestionsId == suggestionId) {
-			return;
-		}
-		this.suggestionsId = suggestionId;
-		this.$suggestions.html('');
-		if (suggestionId) {
-			for (var presetIdx = 0; presetIdx < presets.length; ++presetIdx) {
-				var preset = presets[presetIdx],
-					pBitfield = preset[7],
-					pBitfieldNeg = preset[8],
-					numIdentical = 0,
-					suggestionHtml = '';
-				if ((pBitfield & bitfield) != bitfield || (pBitfield & bitfieldNeg) || (pBitfield | pBitfieldNeg) & bitfieldZero) {
-					continue;
-				}
-				var $suggestion = $.createElement('div', {'class': 'suggestion'})
-					.addClass((numSuggestions & 1) ? 'odd' : 'even')
-					.data('preset-idx', presetIdx);
+		return bitfields;
+	},
+
+	getSuggestions: function(targetBitfields) {
+		var suggestions = [];
+		for (var presetIdx = 0; presetIdx < presets.length && suggestions.length < this.maxSuggestions; ++presetIdx) {
+			var preset = presets[presetIdx],
+				presetBitfieldPos = preset[7],
+				presetBitfieldNeg = preset[8],
+				numIdentical = 0;
+			if (
+				(presetBitfieldPos & targetBitfields.pos) === targetBitfields.pos // Positive targets match
+				&& (presetBitfieldPos & targetBitfields.neg) === 0 // Negative targets have negative or neutral values
+				&& ((presetBitfieldPos | presetBitfieldNeg) & targetBitfields.zero) === 0 // Strictly neutral targets have neutral values
+			) {
 				for (var colIdx = 0; colIdx < this.targets.length; ++colIdx) {
-					var colorClass = preset[colIdx] < 0 ? 'neg' : 'pos';
-					suggestionHtml += '<div class="target ' + colorClass + '">' + (preset[colIdx] || '') + '</div>';
 					if (preset[colIdx] === this.targets[colIdx]) {
 						++numIdentical;
 					}
 				}
-				if (numIdentical == 6) {
-					continue;
-				}
-				var colorClass = 'color-lerp' + Math.min(9, Math.round(9 * preset[6] / 100));
-				suggestionHtml += '<div class="efficiency ' + colorClass + '">' + preset[6] + '%</div>';
-				$suggestion.append(suggestionHtml)
-					.on('click', function(ev) {
-						var presetIdx = $(ev.currentTarget).data('preset-idx'),
-							preset = presets[presetIdx];
-						for (var syndicateIdx = 0; syndicateIdx < self.targets.length; ++syndicateIdx) {
-							self.inputs[syndicateIdx].value = self.targets[syndicateIdx] = preset[syndicateIdx];
-						}
-						self.update(true);
-					})
-					.appendTo(this.$suggestions);
-				if (++numSuggestions >= 5) {
-					break;
+				if (numIdentical < this.targets.length) {
+					// Skip suggestions that are identical to the current targets
+					suggestions.push(presetIdx);
 				}
 			}
 		}
-		if (numSuggestions > 0) {
-			this.$suggestionsWrap.show();
-		}
-		else {
-			this.$suggestionsWrap.hide();
-		}
+		return suggestions;
 	},
-	
+
+	loadSuggestion: function(ev) {
+		var presetIdx = $(ev.currentTarget).data('preset-idx'),
+			preset = presets[presetIdx];
+		for (var syndicateIdx = 0; syndicateIdx < this.targets.length; ++syndicateIdx) {
+			this.setTarget(syndicateIdx, preset[syndicateIdx]);
+		}
+		this.update(true);
+	},
+
+	suggest: function() {
+		var targetBitfields = this.getTargetBitfields(),
+			numSuggestions = 0,
+			suggestionId = (targetBitfields.pos << 12) | (targetBitfields.neg << 6) | targetBitfields.zero;
+		if (this.suggestionsId === suggestionId) {
+			return;
+		}
+		this.suggestionsId = suggestionId;
+		this.$suggestionsList.html('');
+		if (suggestionId) {
+			var suggestions = this.getSuggestions(targetBitfields);
+			numSuggestions = suggestions.length
+			for (var suggestionIdx = 0; suggestionIdx < numSuggestions; ++suggestionIdx) {
+				var presetIdx = suggestions[suggestionIdx],
+					preset = presets[presetIdx],
+					$suggestion = $.createElement('div', {'class': 'suggestion'})
+						.addClass((suggestionIdx & 1) ? 'even' : 'odd')
+						.data('preset-idx', presetIdx),
+					suggestionHtml = '';
+				for (var colIdx = 0; colIdx < this.targets.length; ++colIdx) {
+					var colorClassTarget = preset[colIdx] < 0 ? 'neg' : 'pos';
+					suggestionHtml += '<div class="column ' + colorClassTarget + '">' + (preset[colIdx] || '') + '</div>';
+				}
+				var colorClassEfficiency = 'color-lerp' + Math.min(9, Math.round(9 * preset[6] / 100));
+				suggestionHtml += '<div class="column efficiency ' + colorClassEfficiency + '">' + preset[6] + '%</div>';
+				$suggestion.append(suggestionHtml)
+					.on('click', this.loadSuggestion)
+					.appendTo(this.$suggestionsList);
+			}
+		}
+		numSuggestions > 0
+			? this.$suggestions.show()
+			: this.$suggestions.hide();
+	},
+
 	update: function(skipSuggest) {
 		var points = $.fillArray(Array(this.targets.length), 0),
 			results = points.slice(),

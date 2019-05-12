@@ -32,121 +32,313 @@
 	</div>
 	<div id="theme-icon" class="icon theme-icon" title="Theme selection"></div>
 </div>
-<div id="page"><div id="main">
-<h1>
-	Tracking&nbsp;
-	<div class="icon info-icon" id="info-main-icon"></div>
-</h1>
-<div class="info-box" id="info-main" style="display:none">
-	<div class="light-box border">
-		<p>Select the syndicate level from a dropdown menu by clicking on the rank name,
-			then enter the reputation points for that level in the upper input field.
-			The bottom input field is used to calculate how a given amount of added standing for one syndicate will affect the others.
-			Both inputs can be either positive or negative and support expressions containing addition and subtraction.
-		</p>
-		<p>Use the Update button to set the new ranks and reputation as the starting point, or the Save button to store the results locally if a supported web browser is used.</p>
+
+<div id="page">
+	<div id="tracker">
+		<h1>
+			Tracking&nbsp;
+			<div class="icon info-icon" id="info-main-icon"></div>
+		</h1>
+		<div class="info-box" id="info-main" style="display:none">
+			<div class="light-box border">
+				<p>
+					Select the syndicate level from a dropdown menu by clicking on the rank name,
+					then enter the reputation points for that level in the upper input field.
+					The bottom input field is used to calculate how a given amount of added standing for one syndicate will affect the others.
+					Both inputs can be either positive or negative and support expressions containing addition and subtraction.
+				</p>
+				<p>
+					Use the Update button to set the new ranks and reputation as the starting point, or the Save button to store the results locally if a supported web browser is used.
+				</p>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="synd steel light-box border">
+				<div class="top">
+					<div class="icon logo big" title="Steel Meridian"></div>
+					<div class="rank-stars"></div>
+					<div class="rank-label-wrap"><span class="rank-label"></span></div>
+					<div class="ranklist dark-box border shadow"></div>
+				</div>
+				<div class="values">
+					<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+					<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+				</div>
+				<div class="results">
+					<div class="out">&#x200b;</div>
+					<div class="progress-background"><div class="progress"></div></div>
+					<div class="diff">&#x200b;</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="synd hexis light-box border">
+				<div class="top">
+					<div class="icon logo big" title="Arbiters of Hexis"></div>
+					<div class="rank-stars"></div>
+					<div class="rank-label-wrap"><span class="rank-label"></span></div>
+					<div class="ranklist dark-box border shadow"></div>
+				</div>
+				<div class="values">
+					<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+					<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+				</div>
+				<div class="results">
+					<div class="out">&#x200b;</div>
+					<div class="progress-background"><div class="progress"></div></div>
+					<div class="diff">&#x200b;</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="synd suda light-box border">
+				<div class="top">
+					<div class="icon logo big" title="Cephalon Suda"></div>
+					<div class="rank-stars"></div>
+					<div class="rank-label-wrap"><span class="rank-label"></span></div>
+					<div class="ranklist dark-box border shadow"></div>
+				</div>
+				<div class="values">
+					<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+					<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+				</div>
+				<div class="results">
+					<div class="out">&#x200b;</div>
+					<div class="progress-background"><div class="progress"></div></div>
+					<div class="diff">&#x200b;</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="synd perrin light-box border">
+				<div class="top">
+					<div class="icon logo big" title="The Perrin Sequence"></div>
+					<div class="rank-stars"></div>
+					<div class="rank-label-wrap"><span class="rank-label"></span></div>
+					<div class="ranklist dark-box border shadow"></div>
+				</div>
+				<div class="values">
+					<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+					<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+				</div>
+				<div class="results">
+					<div class="out">&#x200b;</div>
+					<div class="progress-background"><div class="progress"></div></div>
+					<div class="diff">&#x200b;</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="synd veil light-box border">
+				<div class="top">
+					<div class="icon logo big" title="Red Veil"></div>
+					<div class="rank-stars"></div>
+					<div class="rank-label-wrap"><span class="rank-label"></span></div>
+					<div class="ranklist dark-box border shadow"></div>
+				</div>
+				<div class="values">
+					<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+					<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+				</div>
+				<div class="results">
+					<div class="out">&#x200b;</div>
+					<div class="progress-background"><div class="progress"></div></div>
+					<div class="diff">&#x200b;</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="synd loka light-box border">
+				<div class="top">
+					<div class="icon logo big" title="New Loka"></div>
+					<div class="rank-stars"></div>
+					<div class="rank-label-wrap"><span class="rank-label"></span></div>
+					<div class="ranklist dark-box border shadow"></div>
+				</div>
+				<div class="values">
+					<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
+					<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
+				</div>
+				<div class="results">
+					<div class="out">&#x200b;</div>
+					<div class="progress-background"><div class="progress"></div></div>
+					<div class="diff">&#x200b;</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="total-results" class="light-box border" style="display:none"></div>
+		<div id="settings" class="buttons">
+			<button id="set-start" title="Set results as new starting point">Update</button>
+			<button id="clear-start" title="Reset">Clear</button>
+			<button id="save-start" title="Update and save results locally">Save</button>
+		</div>
+	</div>
+
+	<div id="planner">
+		<h1>
+			Planning&nbsp;
+			<div class="icon info-icon" id="info-planner-icon"></div>
+		</h1>
+		<div class="info-box" id="info-planner" style="display:none">
+			<div class="light-box border">
+				<p>
+					Calculate how many points you need to gain with each syndicate in order to reach a given distribution of reputation
+					by entering the desired targets in the input field or using the controls.
+					Expressions with addition and subtraction are allowed in the input fields.
+				</p>
+				<p>
+					The multiplier field at the bottom accepts any real number and multiplies the results by that value.
+				</p>
+				<p>
+					The Apply button copies the points required to the bottom fields in the tracking section.
+				</p>
+			</div>
+		</div>
+		<div id="planner-box" class="light-box border">
+			<div class="synd steel">
+				<div class="icon logo small"></div>
+				<div class="values">
+					<input type="text" class="target" placeholder="Target rep" tabindex="2">
+				</div>
+				<div class="controls">
+					<button class="auto" title="Auto">&#x21BB</button>
+					<button class="down" title="Decrease">-</button>
+					<button class="up" title="Increase">+</button>
+				</div>
+				<div class="results nobr">
+					<div class="in">&#x200B;</div>
+					<div class="out">&#x200B;</div>
+				</div>
+			</div>
+
+			<div class="synd hexis">
+				<div class="icon logo small"></div>
+				<div class="values">
+					<input type="text" class="target" placeholder="Target rep" tabindex="2">
+				</div>
+				<div class="controls">
+					<button class="auto" title="Auto">&#x21BB</button>
+					<button class="down" title="Decrease">-</button>
+					<button class="up" title="Increase">+</button>
+				</div>
+				<div class="results nobr">
+					<div class="in">&#x200B;</div>
+					<div class="out">&#x200B;</div>
+				</div>
+			</div>
+
+			<div class="synd suda">
+				<div class="icon logo small"></div>
+				<div class="values">
+					<input type="text" class="target" placeholder="Target rep" tabindex="2">
+				</div>
+				<div class="controls">
+					<button class="auto" title="Auto">&#x21BB</button>
+					<button class="down" title="Decrease">-</button>
+					<button class="up" title="Increase">+</button>
+				</div>
+				<div class="results nobr">
+					<div class="in">&#x200B;</div>
+					<div class="out">&#x200B;</div>
+				</div>
+			</div>
+
+			<div class="synd perrin">
+				<div class="icon logo small"></div>
+				<div class="values">
+					<input type="text" class="target" placeholder="Target rep" tabindex="2">
+				</div>
+				<div class="controls">
+					<button class="auto" title="Auto">&#x21BB</button>
+					<button class="down" title="Decrease">-</button>
+					<button class="up" title="Increase">+</button>
+				</div>
+				<div class="results nobr">
+					<div class="in">&#x200B;</div>
+					<div class="out">&#x200B;</div>
+				</div>
+			</div>
+
+			<div class="synd veil">
+				<div class="icon logo small"></div>
+				<div class="values">
+					<input type="text" class="target" placeholder="Target rep" tabindex="2">
+				</div>
+				<div class="controls">
+					<button class="auto" title="Auto">&#x21BB</button>
+					<button class="down" title="Decrease">-</button>
+					<button class="up" title="Increase">+</button>
+				</div>
+				<div class="results nobr">
+					<div class="in">&#x200B;</div>
+					<div class="out">&#x200B;</div>
+				</div>
+			</div>
+
+			<div class="synd loka">
+				<div class="icon logo small"></div>
+				<div class="values">
+					<input type="text" class="target" placeholder="Target rep" tabindex="2">
+				</div>
+				<div class="controls">
+					<button class="auto" title="Auto">&#x21BB;</button>
+					<button class="down" title="Decrease">-</button>
+					<button class="up" title="Increase">+</button>
+				</div>
+				<div class="results nobr">
+					<div class="in">&#x200B;</div>
+					<div class="out">&#x200B;</div>
+				</div>
+			</div>
+
+			<div id="planner-summary" class="nobr">
+				<div class="in">&#x200B;</div>
+				<div class="out">&#x200B;</div>
+				<div class="efficiency">&#x200B;</div>
+			</div>
+
+			<input type="text" id="planner-multiply" placeholder="Multiply" tabindex="3">
+			<div class="buttons">
+				<button id="planner-apply" tabindex="4">Apply</button>
+			</div>
+
+			<div id="planner-suggestions" class="dark-box border" style="display:none">
+				<h2>Suggestions</h2>
+				<div id="planner-suggestion-icons">
+					<div class="column steel">
+						<div class="icon logo tiny"></div>
+					</div>
+					<div class="column hexis">
+						<div class="icon logo tiny"></div>
+					</div>
+					<div class="column suda">
+						<div class="icon logo tiny"></div>
+					</div>
+					<div class="column perrin">
+						<div class="icon logo tiny"></div>
+					</div>
+					<div class="column veil">
+						<div class="icon logo tiny"></div>
+					</div>
+					<div class="column loka">
+						<div class="icon logo tiny"></div>
+					</div>
+					<div class="column efficiency"></div>
+				</div>
+				<div id="planner-suggestions-list">
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-<div class="container"><div class="synd steel light-box border">
-	<div class="top">
-		<div class="icon logo big" title="Steel Meridian"></div>
-		<div class="rank-stars"></div>
-		<div class="rank-label-wrap"><span class="rank-label"></span></div>
-		<div class="ranklist dark-box border shadow"></div>
-	</div>
-	<div class="values">
-		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
-		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
-	</div>
-	<div class="results">
-		<div class="out">&#x200b;</div>
-		<div class="progress-background"><div class="progress"></div></div>
-		<div class="diff">&#x200b;</div>
-	</div>
-</div></div><div class="container"><div class="synd hexis light-box border">
-	<div class="top">
-		<div class="icon logo big" title="Arbiters of Hexis"></div>
-		<div class="rank-stars"></div>
-		<div class="rank-label-wrap"><span class="rank-label"></span></div>
-		<div class="ranklist dark-box border shadow"></div>
-	</div>
-	<div class="values">
-		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
-		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
-	</div>
-	<div class="results">
-		<div class="out">&#x200b;</div>
-		<div class="progress-background"><div class="progress"></div></div>
-		<div class="diff">&#x200b;</div>
-	</div>
-</div></div><div class="container"><div class="synd suda light-box border">
-	<div class="top">
-		<div class="icon logo big" title="Cephalon Suda"></div>
-		<div class="rank-stars"></div>
-		<div class="rank-label-wrap"><span class="rank-label"></span></div>
-		<div class="ranklist dark-box border shadow"></div>
-	</div>
-	<div class="values">
-		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
-		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
-	</div>
-	<div class="results">
-		<div class="out">&#x200b;</div>
-		<div class="progress-background"><div class="progress"></div></div>
-		<div class="diff">&#x200b;</div>
-	</div>
-</div></div><div class="container"><div class="synd perrin light-box border">
-	<div class="top">
-		<div class="icon logo big" title="The Perrin Sequence"></div>
-		<div class="rank-stars"></div>
-		<div class="rank-label-wrap"><span class="rank-label"></span></div>
-		<div class="ranklist dark-box border shadow"></div>
-	</div>
-	<div class="values">
-		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
-		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
-	</div>
-	<div class="results">
-		<div class="out">&#x200b;</div>
-		<div class="progress-background"><div class="progress"></div></div>
-		<div class="diff">&#x200b;</div>
-	</div>
-</div></div><div class="container"><div class="synd veil light-box border">
-	<div class="top">
-		<div class="icon logo big" title="Red Veil"></div>
-		<div class="rank-stars"></div>
-		<div class="rank-label-wrap"><span class="rank-label"></span></div>
-		<div class="ranklist dark-box border shadow"></div>
-	</div>
-	<div class="values">
-		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
-		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
-	</div>
-	<div class="results">
-		<div class="out">&#x200b;</div>
-		<div class="progress-background"><div class="progress"></div></div>
-		<div class="diff">&#x200b;</div>
-	</div>
-</div></div><div class="container"><div class="synd loka light-box border">
-	<div class="top">
-		<div class="icon logo big" title="New Loka"></div>
-		<div class="rank-stars"></div>
-		<div class="rank-label-wrap"><span class="rank-label"></span></div>
-		<div class="ranklist dark-box border shadow"></div>
-	</div>
-	<div class="values">
-		<input type="text" class="in" placeholder="Current rep" title="Current rep" tabindex="1">
-		<input type="text" class="add" placeholder="Added rep" title="Added rep" tabindex="1">
-	</div>
-	<div class="results">
-		<div class="out">&#x200b;</div>
-		<div class="progress-background"><div class="progress"></div></div>
-		<div class="diff">&#x200b;</div>
-	</div>
-</div></div>
-<div id="total-results" class="light-box border" style="display:none"></div>
-<div id="settings" class="buttons"><button id="set-start" title="Set results as new starting point">Update</button><button id="clear-start" title="Reset">Clear</button><button id="save-start" title="Update and save results locally">Save</button></div>
-</div></div>
+
 <script type="text/javascript">
 (function() {
 	var theme = localStorage !== undefined && localStorage['theme'];

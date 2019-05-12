@@ -34,19 +34,19 @@ TrackerComponent.prototype = {
 		}
 		this.initialized = true;
 
-		for (var syndicateIdx = 0, $syndEls = $('#main .synd'); syndicateIdx < $syndEls.length; ++syndicateIdx) {
+		for (var syndicateIdx = 0, $syndEls = $('#tracker .synd'); syndicateIdx < $syndEls.length; ++syndicateIdx) {
 			$syndEls.getObj(syndicateIdx).data('synd-idx', syndicateIdx);
 		}
 		var updateTableBound = this.updateTable.bind(this);
 
-		this.$rankLabels = $('.rank-label');
-		this.$rankStars = $('.rank-stars');
-		this.$rankLists = $('.ranklist');
-		this.$inputsIn = $('#main .values .in');
-		this.$inputsAdd = $('#main .values .add');
-		this.$results = $('.results .out');
-		this.$progressBars = $('.progress');
-		this.$resultsDiff = $('.diff');
+		this.$rankLabels = $('#tracker .rank-label');
+		this.$rankStars = $('#tracker .rank-stars');
+		this.$rankLists = $('#tracker .ranklist');
+		this.$inputsIn = $('#tracker .values .in');
+		this.$inputsAdd = $('#tracker .values .add');
+		this.$results = $('#tracker .results .out');
+		this.$progressBars = $('#tracker .progress');
+		this.$resultsDiff = $('#tracker .diff');
 		this.$totalResults = $('#total-results');
 		this.$totalDiff = $('#total-results-diff');
 		this.$inputsIn.on('input|keyup', updateTableBound);
