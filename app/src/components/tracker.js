@@ -2,32 +2,112 @@ import { toggle as toggleInfoBox } from '../utils/info-box';
 import * as syndicate from '../utils/syndicate';
 import * as global from '../vars/global';
 
-var tracker = null;
+var instantiated = false;
 
 export function TrackerComponent(settings) {
-	if (tracker) {
+	if (instantiated) {
 		throw new Error('A tracker instance has already been created.');
 	}
-	tracker = this;
-	this.settings = settings;
-	this.valuesStart = [];
-	this.valuesEnd = [];
-	this.valuesTarget = [];
-	this.$rankListActive = null;
-	this.$rankLabels = null;
-	this.$rankStars = null;
-	this.$rankLists = null;
-	this.$inputsIn = null;
-	this.$inputsAdd = null;
-	this.$results = null;
-	this.$progressBars = null;
-	this.$resultsDiff = null;
-	this.$totalResults = null;
-	this.$totalDiff = null;
+	instantiated = true;
 	this.initialized = false;
+	this.settings = settings;
+
+	/**
+	 * Syndicate rep at starting point
+	 *
+	 * @type {number[]}
+	 */
+	this.valuesStart = [];
+
+	/**
+	 * Resulting syndicate rep
+	 *
+	 * @type {number[]}
+	 */
+	this.valuesEnd = [];
+
+	/**
+	 * Currently expanded rank list, or null if all are collapsed
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$rankListActive = null;
+
+	/**
+	 * Rank label element for each syndicate
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$rankLabels = null;
+
+	/**
+	 * Rank stars element for each syndicate
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$rankStars = null;
+
+	/**
+	 * Lists of ranks for each syndicate
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$rankLists = null;
+
+	/**
+	 * Input fields for each syndicate's starting rep
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$inputsIn = null;
+
+	/**
+	 * Input fields for each syndicate's added rep
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$inputsAdd = null;
+
+	/**
+	 * Text fields for each syndicate's rep result
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$results = null;
+
+	/**
+	 * Progress bars for each syndicate's rank progress
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$progressBars = null;
+
+	/**
+	 * Text fields for each syndicate's rep result delta
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$resultsDiff = null;
+
+	/**
+	 * Text field for summarized results
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$totalResults = null;
+
+	/**
+	 * Text field for summarized results delta
+	 *
+	 * @type {JSUtilObj}
+	 */
+	this.$totalDiff = null;
 }
 
 TrackerComponent.prototype = {
+	/**
+	 * Setup properties and event handlers.
+	 */
 	init: function() {
 		if (this.initialized) {
 			throw new Error('The tracker has already been initialized.');
@@ -37,8 +117,7 @@ TrackerComponent.prototype = {
 		for (var syndicateIdx = 0, $syndEls = $('#tracker .synd'); syndicateIdx < $syndEls.length; ++syndicateIdx) {
 			$syndEls.getObj(syndicateIdx).data('synd-idx', syndicateIdx);
 		}
-		var updateTableBound = this.updateTable.bind(this);
-
+		this.updateTable = this.updateSyndicates.bind(this);
 		this.$rankLabels = $('#tracker .rank-label');
 		this.$rankStars = $('#tracker .rank-stars');
 		this.$rankLists = $('#tracker .ranklist');
@@ -49,8 +128,8 @@ TrackerComponent.prototype = {
 		this.$resultsDiff = $('#tracker .diff');
 		this.$totalResults = $('#total-results');
 		this.$totalDiff = $('#total-results-diff');
-		this.$inputsIn.on('input|keyup', updateTableBound);
-		this.$inputsAdd.on('input|keyup', updateTableBound);
+		this.$inputsIn.on('input|keyup', this.updateSyndicates);
+		this.$inputsAdd.on('input|keyup', this.updateSyndicates);
 		this.$rankLabels.on('click', this.showRankSelection.bind(this));
 		$('#set-start').on('click', this.updateStartValues.bind(this));
 		$('#clear-start').on('click', this.clearStartValues.bind(this));
@@ -64,24 +143,18 @@ TrackerComponent.prototype = {
 		}
 		this.loadStartValues();
 		this.updateRankValues();
-		updateTableBound();
+		this.updateSyndicates();
 	},
 
-	addPoints: function(destination, points, syndicateIdx) {
-		points = Math.round(points);
-		var relations = global.relations[syndicateIdx],
-			halfPoints = $.roundFromZero(points / 2);
-		destination[syndicateIdx] += points;
-		destination[relations[0]] += halfPoints;
-		destination[relations[1]] -= halfPoints;
-		destination[relations[2]] -= points;
-	},
-
-	updateTable: function() {
+	/**
+	 * Calculate the effects of the input values and update the document
+	 */
+	updateSyndicates: function() {
 		var totalAdded = 0,
 			totalDiff = 0,
 			valuesIn = [];
 
+		// Process input values first to make sure values are within the allowed interval
 		for (var syndicateIdx = 0; syndicateIdx < this.$inputsIn.length; ++syndicateIdx) {
 			var inputIn = this.$inputsIn[syndicateIdx],
 				pointsIn = this.valuesStart[syndicateIdx],
@@ -92,17 +165,19 @@ TrackerComponent.prototype = {
 			valuesIn[syndicateIdx] = $.clamp(pointsIn, global.minRep, global.maxRep);
 		}
 
+		// Apply the additions and calculate the effects on related syndicates
 		this.valuesEnd = valuesIn.slice();
 		for (var syndicateIdx = 0; syndicateIdx < this.$inputsAdd.length; ++syndicateIdx) {
 			var inputAdd = this.$inputsAdd[syndicateIdx],
 				match;
 			while (match = global.valueRegexp.exec(inputAdd.value)) {
 				var pointsToAdd = Number(match[0]);
-				this.addPoints(this.valuesEnd, pointsToAdd, syndicateIdx);
+				syndicate.addPoints(this.valuesEnd, pointsToAdd, syndicateIdx);
 				totalAdded += Math.abs(pointsToAdd);
 			}
 		}
 
+		// Send the new results to the document
 		for (var syndicateIdx = 0; syndicateIdx < this.$results.length; ++syndicateIdx) {
 			var pointsOut = $.clamp(this.valuesEnd[syndicateIdx], global.minRep, global.maxRep),
 				pointsDiff = pointsOut - valuesIn[syndicateIdx],
@@ -197,7 +272,7 @@ TrackerComponent.prototype = {
 		this.valuesStart = $.fillArray(Array(this.$inputsIn.length), 0);
 		this.$inputsAdd.val('');
 		this.$inputsIn.val('');
-		this.updateTable();
+		this.updateSyndicates();
 	},
 
 	setStartValues: function(valuesStart) {
@@ -207,7 +282,7 @@ TrackerComponent.prototype = {
 		for (var syndicateIdx = 0; syndicateIdx < valuesStart.length; ++syndicateIdx) {
 			this.$inputsAdd[syndicateIdx].value = valuesStart[syndicateIdx] || '';
 		}
-		this.updateTable();
+		this.updateSyndicates();
 	},
 
 	saveStartValues: function() {
@@ -218,7 +293,7 @@ TrackerComponent.prototype = {
 		this.$inputsAdd.val('');
 		this.valuesStart = this.valuesEnd.slice();
 		this.updateRankValues();
-		this.updateTable();
+		this.updateSyndicates();
 	},
 
 	showRankSelection: function(ev) {
@@ -273,6 +348,6 @@ TrackerComponent.prototype = {
 			this.valuesStart[syndicateIdx] = 0;
 		}
 		this.$inputsIn[syndicateIdx].value = '';
-		this.updateTable();
+		this.updateSyndicates();
 	}
 };

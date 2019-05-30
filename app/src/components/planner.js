@@ -5,10 +5,8 @@
 
 import { toggle as toggleInfoBox } from '../utils/info-box';
 import * as global from '../vars/global';
+import * as syndicate from '../utils/syndicate';
 
-/**
- * @type {boolean}
- */
 var instantiated = false;
 
 /**
@@ -144,6 +142,8 @@ export function PlannerComponent(tracker) {
 		throw new Error('A planner instance has already been created.');
 	}
 	instantiated = true;
+	this.initialized = false;
+	this.maxSuggestions = 5;
 	this.tracker = tracker;
 
 	/**
@@ -222,21 +222,10 @@ export function PlannerComponent(tracker) {
 	 * @type {JSUtilObj}
 	 */
 	this.$suggestionsList = null;
-
-	/**
-	 * @type {boolean}
-	 */
-	this.initialized = false;
-
-	/**
-	 * @type {number}
-	 */
-	this.maxSuggestions = 5;
 }
 
 
 PlannerComponent.prototype = {
-
 	/**
 	 * Setup properties and event handlers.
 	 */
@@ -493,7 +482,7 @@ PlannerComponent.prototype = {
 			}
 			for (var syndicateIdx = 0; syndicateIdx < points.length; ++syndicateIdx) {
 				points[syndicateIdx] = Math.round((points[syndicateIdx] - minPoints) * multiplier);
-				this.tracker.addPoints(results, points[syndicateIdx], syndicateIdx);
+				syndicate.addPoints(results, points[syndicateIdx], syndicateIdx);
 			}
 			for (var syndicateIdx = 0; syndicateIdx < points.length; ++syndicateIdx) {
 				this.$resultsIn.getObj(syndicateIdx)
