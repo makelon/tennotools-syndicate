@@ -2,23 +2,20 @@
   "name": "tennotools-syndicate",
   "version": "1.0.0",
   "description": "A simple utility for easier planning of more intricate syndicate relations in the video game Warframe",
-  "dependencies": {},
   "devDependencies": {
-    "clean-webpack-plugin": "^2.0.1",
-    "css-loader": "^2.1.1",
-    "file-loader": "^3.0.1",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.4.2",
-    "sass": "^1.20.1",
-    "sass-loader": "^7.1.0",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1",
-    "webpack-fix-style-only-entries": "^0.2.1"
+    "css-loader": "^6.5.1",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.5",
+    "sass": "^1.44.0",
+    "sass-loader": "^12.3.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-remove-empty-scripts": "^0.7.1"
   },
   "private": true,
   "scripts": {
     "build": "webpack",
-    "prod": "webpack --env.production",
+    "prod": "webpack --env production",
     "watch": "webpack --watch"
   },
   "author": "makelon",

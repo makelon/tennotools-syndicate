@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @mixin menu-item($theme) {
 	%menu-item-#{$theme} {
 		color: $linkColor;
@@ -224,6 +226,6 @@ input {
 
 @for $i from 0 through 9 {
 	.color-lerp#{$i} {
-		 color: mix($colorLerpEnd, $colorLerpStart, 100 * $i / 9);
+		 color: mix($colorLerpEnd, $colorLerpStart, math.div(100 * $i, 9));
 	}
 }

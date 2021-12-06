@@ -1,8 +1,7 @@
 const path = require('path'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
 	MiniCssExtractPlugin = require('mini-css-extract-plugin'),
-	CleanWebpackPlugin = require('clean-webpack-plugin'),
-	FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+	RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 module.exports = env => {
 	const isProd = env && env.production,
@@ -20,6 +19,7 @@ module.exports = env => {
 			path: path.resolve(__dirname, 'dist'),
 			filename: `${filenamePattern}.js`
 		},
+		target: ['web', 'es5'],
 		module: {
 			rules: [
 				{
@@ -40,21 +40,11 @@ module.exports = env => {
 							}
 						}
 					]
-				},
-				{
-					test: /\.png$/,
-					use: {
-						loader: 'file-loader',
-						options: {
-							name: `${filenamePattern}.[ext]`
-						}
-					}
 				}
 			]
 		},
 		plugins: [
-			new FixStyleOnlyEntriesPlugin(),
-			new CleanWebpackPlugin(),
+			new RemoveEmptyScriptsPlugin(),
 			new HtmlWebpackPlugin({
 				filename: 'index.html',
 				template: './src/index.html',
@@ -67,6 +57,9 @@ module.exports = env => {
 				filename: `${filenamePattern}.css`
 			})
 		],
-		devtool: isProd ? false : 'source-maps'
+		devtool: isProd ? false : 'eval',
+		optimization: {
+			minimize: false
+		}
 	};
 }
